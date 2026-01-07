@@ -7,8 +7,14 @@ import json
 # -------------------------------
 # Load model and metadata
 # -------------------------------
-booster = xgb.Booster()
-booster.load_model("bilirubin_xgboost_patient_clean.json")
+@st.cache_resource
+def load_model():
+    booster = xgb.Booster()
+    booster.load_model("bilirubin_xgboost_patient_clean.json")
+    return booster
+
+booster = load_model()
+
 
 with open("bilirubin_xgboost_feature_names.json") as f:
     FEATURE_NAMES = json.load(f)
